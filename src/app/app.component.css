@@ -3,4 +3,17 @@
 }
 mat-toolbar {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding-top: 5px;
+}
+
+mat-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.change-width {
+  width: 80px;
+  padding-bottom: 0px;
+  padding-top: 20px;
 }

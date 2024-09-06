@@ -20,14 +20,14 @@ mat-card {
 
 mat-card-content {
   box-sizing: border-box;
-  padding: 10px;
+  padding-inline: 15px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 .product-img {
-  padding-inline: 15px;
+  padding: 10px;
   width: 90%;
   height: 80%;
   object-fit: cover;
