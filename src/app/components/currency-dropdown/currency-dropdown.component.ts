@@ -17,6 +17,14 @@ export class CurrencyDropdownComponent implements OnInit {
     // Fetch currencies from the service
     this.currencyService.fetchCurrencies().subscribe((response) => {
       this.currencies = response.currencies;
+
+      const savedCurrency = this.currencyService.getSelectedCurrency();
+      if (savedCurrency) {
+        this.selectedCurrency = savedCurrency;
+      } else if (this.currencies.length > 0) {
+        this.selectedCurrency = this.currencies[0]; // Assuming USD is first
+        this.currencyService.setSelectedCurrency(this.selectedCurrency);
+      }
     });
 
     // Subscribe to the selected currency
@@ -26,7 +34,8 @@ export class CurrencyDropdownComponent implements OnInit {
   }
 
   onCurrencyChange(event: any): void {
-    const selectedLabel = event.target.value;
+    console.log(event.value);
+    const selectedLabel = event.value;
     const selectedCurrency = this.currencies.find(
       (currency) => currency.label === selectedLabel
     );

@@ -7,6 +7,8 @@ export interface ProductPrice {
 }
 
 export interface Product {
+  displaySymbol?: string;
+  displayPrice?: number;
   id: number;
   name: string;
   brand: string;

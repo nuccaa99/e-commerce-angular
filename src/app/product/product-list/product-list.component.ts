@@ -30,6 +30,8 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((data) => {
       this.products = data;
       this.filteredProducts = data;
+
+      this.updateProductPrices();
     });
 
     this.currencyService.selectedCurrency$.subscribe((currency) => {
@@ -42,8 +44,9 @@ export class ProductListComponent implements OnInit {
     if (this.selectedCurrency) {
       this.filteredProducts.forEach((product) => {
         const price = product.prices.find(
-          (p) => p.currency.label === this.selectedCurrency!.label
+          (p) => p.currency.symbol === this.selectedCurrency!.symbol
         );
+
         if (price) {
           product.displayPrice = price.amount;
           product.displaySymbol = price.currency.symbol;

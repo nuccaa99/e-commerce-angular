@@ -21,20 +21,32 @@ export class CurrencyService {
 
   private apiUrl = environment.apiUrl + '/currencies';
 
-  constructor(private http: HttpClient) {}
+  private localStorageKey = 'selectedCurrency';
+
+  constructor(private http: HttpClient) {
+    const savedCurrency = localStorage.getItem(this.localStorageKey);
+    if (savedCurrency) {
+      this.selectedCurrencySubject.next(JSON.parse(savedCurrency));
+    }
+  }
 
   fetchCurrencies(): Observable<{ currencies: Currency[] }> {
     return this.http.get<{ currencies: Currency[] }>(this.apiUrl).pipe(
       tap((response) => {
         this.currenciesSubject.next(response.currencies);
-        if (response.currencies.length > 0) {
-          this.setSelectedCurrency(response.currencies[0]); // Default to the first currency
+        if (!this.selectedCurrencySubject.getValue() && response.currencies.length > 0) {
+          this.setSelectedCurrency(response.currencies[0]);
         }
       })
     );
   }
 
   setSelectedCurrency(currency: Currency): void {
+    localStorage.setItem(this.localStorageKey, JSON.stringify(currency));
     this.selectedCurrencySubject.next(currency);
+  }
+
+  getSelectedCurrency(): Currency | null {
+    return this.selectedCurrencySubject.getValue();
   }
 }
