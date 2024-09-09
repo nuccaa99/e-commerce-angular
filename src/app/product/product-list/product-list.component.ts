@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/cart/cart.service';
+import { CurrencyService } from '../../services/currency.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { Currency } from 'src/app/models/currency';
 
 @Component({
   selector: 'app-product-list',
@@ -13,11 +15,13 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
   sortOrder: string = '';
+  selectedCurrency: Currency | null = null;
 
   constructor(
     private productService: ProductService,
     private cartService: CartService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private currencyService: CurrencyService
   ) {}
 
   selectedPrice: any;
@@ -27,6 +31,25 @@ export class ProductListComponent implements OnInit {
       this.products = data;
       this.filteredProducts = data;
     });
+
+    this.currencyService.selectedCurrency$.subscribe((currency) => {
+      this.selectedCurrency = currency;
+      this.updateProductPrices();
+    });
+  }
+
+  updateProductPrices(): void {
+    if (this.selectedCurrency) {
+      this.filteredProducts.forEach((product) => {
+        const price = product.prices.find(
+          (p) => p.currency.label === this.selectedCurrency!.label
+        );
+        if (price) {
+          product.displayPrice = price.amount;
+          product.displaySymbol = price.currency.symbol;
+        }
+      });
+    }
   }
 
   addToCart(product: Product): void {
@@ -45,8 +68,10 @@ export class ProductListComponent implements OnInit {
     let searchTerm = (event.target as HTMLInputElement).value;
     searchTerm = searchTerm.toLocaleLowerCase();
 
-    this.filteredProducts = this.products.filter((product) =>
-      product.name.toLocaleLowerCase().includes(searchTerm)
+    this.filteredProducts = this.products.filter(
+      (product) =>
+        product.name.toLocaleLowerCase().includes(searchTerm) ||
+        product.brand.toLocaleLowerCase().includes(searchTerm)
     );
     this.sortProducts(this.sortOrder);
   }

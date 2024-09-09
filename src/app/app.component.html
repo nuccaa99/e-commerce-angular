@@ -4,14 +4,8 @@
       <a href="/products" mat-button class="nav-link">Products</a>
       <a href="/cart" mat-button class="nav-link">Cart</a>
     </div>
-    <mat-form-field class="change-width">
-      <mat-label>$</mat-label>
-      <mat-select>
-        <!-- @for (food of foods; track food) {
-        <mat-option [value]="food.value">{{ food.viewValue }}</mat-option>
-        } -->
-      </mat-select>
-    </mat-form-field>
+
+    <app-currency-dropdown></app-currency-dropdown>
   </mat-toolbar-row>
 </mat-toolbar>
 

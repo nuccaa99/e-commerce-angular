@@ -9,9 +9,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { CartModule } from './cart/cart.module';
 import { MatSelectModule } from '@angular/material/select';
+import { CurrencyDropdownComponent } from './components/currency-dropdown/currency-dropdown.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, CurrencyDropdownComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

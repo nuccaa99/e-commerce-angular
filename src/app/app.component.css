@@ -12,8 +12,3 @@ mat-toolbar-row {
   justify-content: space-between;
 }
 
-.change-width {
-  width: 80px;
-  padding-bottom: 0px;
-  padding-top: 20px;
-}

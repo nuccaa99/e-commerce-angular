@@ -1,0 +1,11 @@
+<mat-form-field appearance="fill" class="change-width">
+  <mat-label>Select Currency</mat-label>
+  <mat-select
+    [value]="selectedCurrency?.label"
+    (selectionChange)="onCurrencyChange($event)"
+  >
+    <mat-option *ngFor="let currency of currencies" [value]="currency.label">
+      {{ currency.label }} ({{ currency.symbol }})
+    </mat-option>
+  </mat-select>
+</mat-form-field>
