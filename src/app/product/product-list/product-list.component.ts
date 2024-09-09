@@ -3,7 +3,7 @@ import { ProductService } from '../product.service';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/cart/cart.service';
 import { CurrencyService } from '../../services/currency.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Currency } from 'src/app/models/currency';
 
 @Component({
@@ -23,8 +23,6 @@ export class ProductListComponent implements OnInit {
     private snackbar: MatSnackBar,
     private currencyService: CurrencyService
   ) {}
-
-  selectedPrice: any;
 
   ngOnInit(): void {
     this.productService.getProducts().subscribe((data) => {
@@ -56,14 +54,11 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    this.cartService.addToCart(product).subscribe({
-      next: () => {
-        this.snackbar.open('added to cart', '', {
-          duration: 2000,
-          horizontalPosition: 'right',
-          verticalPosition: 'top',
-        });
-      },
+    this.cartService.addToCart(product);
+    this.snackbar.open('Product added to cart', '', {
+      duration: 2000,
+      horizontalPosition: 'right',
+      verticalPosition: 'top',
     });
   }
 
@@ -79,8 +74,8 @@ export class ProductListComponent implements OnInit {
     this.sortProducts(this.sortOrder);
   }
 
-  sortProducts(sortVlaue: string) {
-    this.sortOrder = sortVlaue;
+  sortProducts(sortValue: string) {
+    this.sortOrder = sortValue;
     if (this.sortOrder === 'priceLowHigh') {
       this.filteredProducts.sort(
         (a, b) => a.prices[0].amount - b.prices[0].amount

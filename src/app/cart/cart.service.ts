@@ -1,30 +1,50 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Product } from '../models/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartService {
-  private apiCartUrl = environment.apiUrl + '/cart';
-  private apiCheckoutUrl = environment.apiUrl + '/checkout';
-  constructor(private http: HttpClient) {}
+  private cartItemsSubject = new BehaviorSubject<Product[]>(
+    this.getCartFromLocalStorage()
+  );
+  cartItems$ = this.cartItemsSubject.asObservable();
 
-  addToCart(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.apiCartUrl, product);
+  constructor() {}
+
+  // Add product to cart and update localStorage
+  addToCart(product: Product): void {
+    const currentItems = this.cartItemsSubject.value;
+    const updatedItems = [...currentItems, product];
+    this.cartItemsSubject.next(updatedItems);
+    this.saveCartToLocalStorage(updatedItems); // Save to localStorage
   }
 
-  getCartItems(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.apiCartUrl);
+  // Retrieve cart items from localStorage
+  private getCartFromLocalStorage(): Product[] {
+    const storedCart = localStorage.getItem('cartItems');
+    return storedCart ? JSON.parse(storedCart) : [];
   }
 
-  clearCart(): Observable<void> {
-    return this.http.delete<void>(this.apiCartUrl);
+  // Save cart items to localStorage
+  private saveCartToLocalStorage(cartItems: Product[]): void {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
   }
 
-  checkout(products: Product[]): Observable<void> {
-    return this.http.post<void>(this.apiCheckoutUrl, products);
+  // Get current cart items
+  getCartItems(): Product[] {
+    return this.cartItemsSubject.value;
+  }
+
+  // Clear cart and localStorage
+  clearCart(): void {
+    this.cartItemsSubject.next([]);
+    localStorage.removeItem('cartItems'); // Clear localStorage
+  }
+
+  // Checkout method (just clearing the cart for now)
+  checkout(): void {
+    this.clearCart();
   }
 }
