@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap, catchError, shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
-interface Currency {
+export interface Currency {
   label: string;
   symbol: string;
 }
@@ -20,7 +20,6 @@ export class CurrencyService {
   selectedCurrency$ = this.selectedCurrencySubject.asObservable();
 
   private apiUrl = environment.apiUrl + '/currencies';
-
   private localStorageKey = 'selectedCurrency';
 
   constructor(private http: HttpClient) {
@@ -34,15 +33,31 @@ export class CurrencyService {
     return this.http.get<{ currencies: Currency[] }>(this.apiUrl).pipe(
       tap((response) => {
         this.currenciesSubject.next(response.currencies);
-        if (!this.selectedCurrencySubject.getValue() && response.currencies.length > 0) {
+        if (
+          !this.selectedCurrencySubject.getValue() &&
+          response.currencies.length > 0
+        ) {
           this.setSelectedCurrency(response.currencies[0]);
         }
+      }),
+      shareReplay(1),
+      catchError((error) => {
+        console.error('Error fetching currencies:', error);
+        return of({ currencies: [] });
       })
     );
   }
 
   setSelectedCurrency(currency: Currency): void {
+    this.saveCurrencyToLocalStorage(currency);
+    this.updateSelectedCurrencySubject(currency);
+  }
+
+  private saveCurrencyToLocalStorage(currency: Currency): void {
     localStorage.setItem(this.localStorageKey, JSON.stringify(currency));
+  }
+
+  private updateSelectedCurrencySubject(currency: Currency): void {
     this.selectedCurrencySubject.next(currency);
   }
 

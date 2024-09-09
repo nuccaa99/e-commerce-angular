@@ -14,4 +14,5 @@ export interface Product {
   brand: string;
   prices: ProductPrice[];
   gallery: string;
+  quantity: number;
 }

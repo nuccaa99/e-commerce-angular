@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
 import { Product } from 'src/app/models/product';
-import { CartService } from 'src/app/cart/cart.service';
+import { CartService } from 'src/app/services/cart.service';
 import { CurrencyService } from '../../services/currency.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Currency } from 'src/app/models/currency';
