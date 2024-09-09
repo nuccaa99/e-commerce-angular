@@ -3,6 +3,8 @@ import { CartService } from '../../services/cart.service';
 import { Product } from 'src/app/models/product';
 import { CurrencyService } from '../../services/currency.service';
 
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-cart-view',
   templateUrl: './cart-view.component.html',
@@ -15,7 +17,8 @@ export class CartViewComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private currencyService: CurrencyService
+    private currencyService: CurrencyService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +55,11 @@ export class CartViewComponent implements OnInit {
   }
 
   checkout(): void {
+    this.snackbar.open('Thank you for your purchase', '', {
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
     this.cartService.checkout();
   }
 }
