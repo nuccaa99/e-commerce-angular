@@ -22,17 +22,11 @@ export class CartViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Log when component initializes
-    console.log('CartViewComponent initialized');
-
-    // Subscribe to cart items
     this.cartService.cartItems$.subscribe((data) => {
-      console.log('Cart items received:', data); // Debug log
       this.cartItems = data;
       this.calculateTotalPrice();
     });
 
-    // Subscribe to currency changes
     this.currencyService.selectedCurrency$.subscribe((currency) => {
       if (currency) {
         this.selectedCurrencySymbol = currency.symbol;

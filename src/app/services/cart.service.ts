@@ -14,7 +14,6 @@ export class CartService {
 
   constructor() {}
 
-  // Add product to cart and update localStorage
   addToCart(product: Product): void {
     const currentItems = [...this.cartItemsSubject.value];
 

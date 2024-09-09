@@ -14,7 +14,6 @@ export class CurrencyDropdownComponent implements OnInit {
   constructor(private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    // Fetch currencies from the service
     this.currencyService.fetchCurrencies().subscribe((response) => {
       this.currencies = response.currencies;
 
@@ -22,12 +21,10 @@ export class CurrencyDropdownComponent implements OnInit {
       if (savedCurrency) {
         this.selectedCurrency = savedCurrency;
       } else if (this.currencies.length > 0) {
-        this.selectedCurrency = this.currencies[0]; // Assuming USD is first
+        this.selectedCurrency = this.currencies[0];
         this.currencyService.setSelectedCurrency(this.selectedCurrency);
       }
     });
-
-    // Subscribe to the selected currency
     this.currencyService.selectedCurrency$.subscribe((currency) => {
       this.selectedCurrency = currency;
     });
