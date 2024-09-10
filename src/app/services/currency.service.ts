@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, catchError, shareReplay } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Apollo, gql } from 'apollo-angular';
+import { map } from 'rxjs/operators';
 
 export interface Currency {
   label: string;
@@ -22,30 +23,61 @@ export class CurrencyService {
   private apiUrl = environment.apiUrl + '/currencies';
   private localStorageKey = 'selectedCurrency';
 
-  constructor(private http: HttpClient) {
+  constructor(private apollo: Apollo) {
     const savedCurrency = localStorage.getItem(this.localStorageKey);
     if (savedCurrency) {
       this.selectedCurrencySubject.next(JSON.parse(savedCurrency));
     }
   }
 
-  fetchCurrencies(): Observable<{ currencies: Currency[] }> {
-    return this.http.get<{ currencies: Currency[] }>(this.apiUrl).pipe(
-      tap((response) => {
-        this.currenciesSubject.next(response.currencies);
-        if (
-          !this.selectedCurrencySubject.getValue() &&
-          response.currencies.length > 0
-        ) {
-          this.setSelectedCurrency(response.currencies[0]);
+  // fetchCurrencies(): Observable<{ currencies: Currency[] }> {
+  //   return this.http.get<{ currencies: Currency[] }>(this.apiUrl).pipe(
+  //     tap((response) => {
+  //       this.currenciesSubject.next(response.currencies);
+  //       if (
+  //         !this.selectedCurrencySubject.getValue() &&
+  //         response.currencies.length > 0
+  //       ) {
+  //         this.setSelectedCurrency(response.currencies[0]);
+  //       }
+  //     }),
+  //     shareReplay(1),
+  //     catchError((error) => {
+  //       console.error('Error fetching currencies:', error);
+  //       return of({ currencies: [] });
+  //     })
+  //   );
+  // }
+
+  fetchCurrencies(): Observable<Currency[]> {
+    const GET_CURRENCIES = gql`
+      query GetCurrencies {
+        currencies {
+          label
+          symbol
         }
-      }),
-      shareReplay(1),
-      catchError((error) => {
-        console.error('Error fetching currencies:', error);
-        return of({ currencies: [] });
-      })
-    );
+      }
+    `;
+    return this.apollo
+      .query<{ currencies: Currency[] }>({ query: GET_CURRENCIES })
+      .pipe(
+        tap((response) => {
+          const currencies = response.data.currencies;
+          this.currenciesSubject.next(currencies);
+          if (
+            !this.selectedCurrencySubject.getValue() &&
+            currencies.length > 0
+          ) {
+            this.setSelectedCurrency(currencies[0]);
+          }
+        }),
+        map((response) => response.data.currencies), // Return just the currencies array
+        shareReplay(1),
+        catchError((error) => {
+          console.error('Error fetching currencies:', error);
+          return of([]); // Return an empty array in case of error
+        })
+      );
   }
 
   setSelectedCurrency(currency: Currency): void {

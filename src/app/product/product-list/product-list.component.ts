@@ -26,8 +26,8 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.productService.getProducts('all').subscribe((data) => {
-      this.products = data;
-      this.filteredProducts = data;
+      this.products = data.map((product: any) => ({ ...product }));
+      this.filteredProducts = this.products.map((product) => ({ ...product }));
 
       this.updateProductPrices();
     });
@@ -46,8 +46,8 @@ export class ProductListComponent implements OnInit {
         );
 
         if (price) {
-          product.displayPrice = price.amount;
-          product.displaySymbol = price.currency.symbol;
+          product['displayPrice'] = price.amount;
+          product['displaySymbol'] = price.currency.symbol;
         }
       });
     }

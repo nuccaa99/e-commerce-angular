@@ -14,8 +14,8 @@ export class CurrencyDropdownComponent implements OnInit {
   constructor(private currencyService: CurrencyService) {}
 
   ngOnInit(): void {
-    this.currencyService.fetchCurrencies().subscribe((response) => {
-      this.currencies = response.currencies;
+    this.currencyService.fetchCurrencies().subscribe((currencies) => {
+      this.currencies = currencies;
 
       const savedCurrency = this.currencyService.getSelectedCurrency();
       if (savedCurrency) {
@@ -31,7 +31,6 @@ export class CurrencyDropdownComponent implements OnInit {
   }
 
   onCurrencyChange(event: any): void {
-    console.log(event.value);
     const selectedLabel = event.value;
     const selectedCurrency = this.currencies.find(
       (currency) => currency.label === selectedLabel
