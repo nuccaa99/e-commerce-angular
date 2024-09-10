@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
 
 This project is a fully functional e-commerce application developed using Angular. It allows users to browse products, select currencies, and add items to a shopping cart. 
-The project is built to interact with a GraphQL server and uses Angular Material for UI components and Angular Flex-Layout for responsive layout.
+The project is built to interact with a __GraphQL__ server and uses __Angular Material__ for UI components and __Angular Flex-Layout__ for responsive layout.
 
 ## Features
 
