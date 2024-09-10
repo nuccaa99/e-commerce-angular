@@ -57,4 +57,9 @@ export class CartViewComponent implements OnInit {
     });
     this.cartService.checkout();
   }
+
+  onImageError(event: Event): void {
+    const target = event.target as HTMLImageElement;
+    target.src = '../assets/no-img.jpg';
+  }
 }
