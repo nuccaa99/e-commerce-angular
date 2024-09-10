@@ -40,7 +40,8 @@ export class CartViewComponent implements OnInit {
       const price = item.prices.find(
         (p) => p.currency.symbol === this.selectedCurrencySymbol
       );
-      return total + (price ? price.amount : 0);
+      const q = item.quantity;
+      return total + (price ? price.amount * q : 0);
     }, 0);
   }
 

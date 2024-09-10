@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 import { Apollo, gql } from 'apollo-angular';
@@ -9,8 +8,6 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ProductService {
-  private apiUrl = environment.apiUrl;
-
   constructor(private apollo: Apollo) {}
 
   getProducts(category: string): Observable<any> {

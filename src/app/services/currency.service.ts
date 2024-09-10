@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, catchError, shareReplay } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
 
@@ -20,7 +19,6 @@ export class CurrencyService {
   private selectedCurrencySubject = new BehaviorSubject<Currency | null>(null);
   selectedCurrency$ = this.selectedCurrencySubject.asObservable();
 
-  private apiUrl = environment.apiUrl + '/currencies';
   private localStorageKey = 'selectedCurrency';
 
   constructor(private apollo: Apollo) {
@@ -29,25 +27,6 @@ export class CurrencyService {
       this.selectedCurrencySubject.next(JSON.parse(savedCurrency));
     }
   }
-
-  // fetchCurrencies(): Observable<{ currencies: Currency[] }> {
-  //   return this.http.get<{ currencies: Currency[] }>(this.apiUrl).pipe(
-  //     tap((response) => {
-  //       this.currenciesSubject.next(response.currencies);
-  //       if (
-  //         !this.selectedCurrencySubject.getValue() &&
-  //         response.currencies.length > 0
-  //       ) {
-  //         this.setSelectedCurrency(response.currencies[0]);
-  //       }
-  //     }),
-  //     shareReplay(1),
-  //     catchError((error) => {
-  //       console.error('Error fetching currencies:', error);
-  //       return of({ currencies: [] });
-  //     })
-  //   );
-  // }
 
   fetchCurrencies(): Observable<Currency[]> {
     const GET_CURRENCIES = gql`
@@ -71,11 +50,11 @@ export class CurrencyService {
             this.setSelectedCurrency(currencies[0]);
           }
         }),
-        map((response) => response.data.currencies), // Return just the currencies array
+        map((response) => response.data.currencies),
         shareReplay(1),
         catchError((error) => {
           console.error('Error fetching currencies:', error);
-          return of([]); // Return an empty array in case of error
+          return of([]);
         })
       );
   }
