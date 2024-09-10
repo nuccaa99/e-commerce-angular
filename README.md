@@ -7,7 +7,7 @@ The project is built to interact with a __GraphQL__ server and uses __Angular Ma
 
 ## Features
 
-- **Product Listing**: Browse and search for products.
+- **Product Listing**: Browse, search for products and sort them by price.
 - **Currency Selection**: Choose different currencies to view product prices.
 - **Shopping Cart**: Add items to the cart and view them.
 - **Responsive Design**: The application is designed to work on various devices.
