@@ -10,6 +10,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { CartModule } from './cart/cart.module';
 import { MatSelectModule } from '@angular/material/select';
 import { CurrencyDropdownComponent } from './components/currency-dropdown/currency-dropdown.component';
+import { GraphQLModule } from './graphql.module';
+import { ApolloConfigModule } from './apollo.config.module';
 
 @NgModule({
   declarations: [AppComponent, CurrencyDropdownComponent],
@@ -23,6 +25,8 @@ import { CurrencyDropdownComponent } from './components/currency-dropdown/curren
     MatButtonModule,
     CartModule,
     MatSelectModule,
+    GraphQLModule,
+    ApolloConfigModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

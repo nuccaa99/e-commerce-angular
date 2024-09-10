@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../product.service';
+import { ProductService } from '../../services/product.service';
 import { Product } from 'src/app/models/product';
 import { CartService } from 'src/app/services/cart.service';
 import { CurrencyService } from '../../services/currency.service';
@@ -25,7 +25,7 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe((data) => {
+    this.productService.getProducts('all').subscribe((data) => {
       this.products = data;
       this.filteredProducts = data;
 
