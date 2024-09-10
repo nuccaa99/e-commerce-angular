@@ -1,6 +1,25 @@
 # ECommerce
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.6.
+This project is a fully functional e-commerce application developed using Angular. It allows users to browse products, select currencies, and add items to a shopping cart. 
+The project is built to interact with a GraphQL server and uses Angular Material for UI components and Angular Flex-Layout for responsive layout.
+
+## Features
+
+- **Product Listing**: Browse and search for products.
+- **Currency Selection**: Choose different currencies to view product prices.
+- **Shopping Cart**: Add items to the cart and view them.
+- **Responsive Design**: The application is designed to work on various devices.
+
+## Get started
+
+This project uses a GraphQL endpoint - [endpoint](https://github.com/scandiweb/junior-react-endpoint)
+In order to start this endpoint, follow these steps:
+1. **Install dependencies**.
+2. **Build the project - yarn build**.
+3. **Start the project - yarn start**.
+
+The endpoint will be available at [http://localhost:4000](http://localhost:4000).
 
 ## Development server
 
