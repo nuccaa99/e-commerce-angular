@@ -53,7 +53,7 @@ export class CartViewComponent implements OnInit {
     this.snackbar.open('Thank you for your purchase', '', {
       duration: 2000,
       horizontalPosition: 'center',
-      verticalPosition: 'bottom',
+      verticalPosition: 'top',
     });
     this.cartService.checkout();
   }

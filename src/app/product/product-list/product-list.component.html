@@ -31,6 +31,7 @@
           src="{{ product.gallery }}"
           alt="Photo of
         product"
+          (error)="onImageError($event)"
         />
         <mat-card-content>
           <mat-card-title>{{
