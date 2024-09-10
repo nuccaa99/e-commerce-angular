@@ -14,7 +14,7 @@ The project is built to interact with a __GraphQL__ server and uses __Angular Ma
 
 ## Get started
 
-This project uses a GraphQL - [endpoint](https://github.com/scandiweb/junior-react-endpoint)
+This project uses a GraphQL - [endpoint](https://github.com/scandiweb/junior-react-endpoint).
 In order to start this endpoint, follow these steps:
 1. **Install dependencies**.
 2. **Build the project - yarn build**.
