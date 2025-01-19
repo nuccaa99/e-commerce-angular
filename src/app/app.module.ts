@@ -20,7 +20,7 @@ import { ApolloConfigModule } from './apollo.config.module';
     AppRoutingModule,
     ProductModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule,aaa
     MatToolbarModule,
     MatButtonModule,
     CartModule,
